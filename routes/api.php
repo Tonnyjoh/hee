@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\ArticleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('v1')->group(function () {
+    Route::get('/articles', [ArticleController::class, 'index']);
+
+    // Routes supplémentaires pour une API complète
+    Route::get('/articles/{slug}', [ArticleController::class, 'show']);
+    Route::post('/articles', [ArticleController::class, 'store']);
+    Route::put('/articles/{article}', [ArticleController::class, 'update']);
+    Route::delete('/articles/{article}', [ArticleController::class, 'destroy']);
 });
+
+Route::get('/articles', [ArticleController::class, 'index']);
